@@ -4,20 +4,22 @@ var knex = require('../db/knex');
 
 module.exports = route;
 
-route.get('/auth', function(request, response) {
+route.get('/', function(request, response) {
   response.json({ user: request.user });
 });
 
-route.get('/auth/google', passport.authenticate('google'));
+route.get('/google',
+  passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/userinfo.profile' })
+);
 
-route.get('/auth/google/callback',
+route.get('/google/callback',
   passport.authenticate('google'),
   function(request, response, next) {
     response.redirect('/');
   }
 );
 
-route.get('/auth/logout', function(request, response, next) {
+route.get('/logout', function(request, response, next) {
   request.logout();
   response.json({ user: request.user });
 });

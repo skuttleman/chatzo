@@ -26,9 +26,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: process.env.HOST + "/auth/google/callback",
-  scope: ['r_emailaddress', 'r_basicprofile'],
-  state: true
+  callbackURL: process.env.HOST + "/auth/google/callback"
 }, function(accessToken, refreshToken, profile, done) {
   incorporateUser(profile, done).catch(done);
 }));
@@ -50,40 +48,19 @@ function getOrCreateUser(profile) {
   });
 }
 
-function userWithRole(user, where) {
-  return lookupRole(where).then(function(role) {
-    user.role_name = role.name;
-    return Promise.resolve(user);
-  });
-}
-
 function updateUser(user, profile) {
-  return knex('members').returning('*').where({ id: user.id }).update({
-    display_name: profile.displayName || '',
-    profile_image: photo(profile.photos)
+  return knex('users').returning('*').where({ id: user.id }).update({
+    name: profile.displayName || ''
   }).then(function(users) {
-    return userWithRole(users[0], { id: user.role_id });
+    return Promise.resolve(users[0]);
   });
 }
 
 function createUser(profile) {
-  return lookupRole({ name: 'normal' }).then(function(role) {
-    return knex('members').returning('*').insert({
-      is_banned: false,
-      role_id: role.id,
-      social_id: profile.id,
-      display_name: profile.displayName,
-      profile_image: photo(profile.photos)
-    }).then(function(users) {
-      var user = users[0];
-      user.role_name = role.name;
-      user.firstLogin = true;
-      return Promise.resolve(user);
-    });
+  return knex('users').returning('*').insert({
+    social_id: profile.id,
+    name: profile.displayName
+  }).then(function(users) {
+    return Promise.resolve(users[0]);
   });
-}
-
-function photo(photos) {
-  var ret = photos[photos.length - 1];
-  return ret ? ret.value : '';
 }
