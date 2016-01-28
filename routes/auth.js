@@ -21,5 +21,5 @@ route.get('/google/callback',
 
 route.get('/logout', function(request, response, next) {
   request.logout();
-  response.json({ user: request.user });
+  response.json({ message: 'logged out' });
 });
