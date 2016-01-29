@@ -1,7 +1,17 @@
 var route = require('express').Router();
 var knex = require('../db/knex');
+var messages = require('./messages');
 module.exports = route;
 
+// MESSAGES
+route.use('/:id/messages', function(request, response, next) {
+  canAccess(request.user, request.params.id).then(function() {
+    request.chat_room_id = request.params.id;
+    next();
+  }).catch(function(err) {
+    response.json({ message: 'Permission Denied' });
+  });
+}, messages);
 
 // C
 route.post('/', function(request, response, next) {
@@ -76,3 +86,16 @@ route.get('/', function(request, response, next) {
     next('You must be logged in to process this request');
   }
 });
+
+function canAccess(user, id) {
+  return Promise.all([
+    knex('chat_rooms').where({ id: id }),
+    knex('access').select('user_id').where({ chat_room_id: id })
+  ]).then(function(results) {
+    if ((user && user.id == results[0][0].user_id) || results[1].indexOf(Number(id)) + 1) {
+      return Promise.resolve();
+    } else {
+      return Promise.reject();
+    }
+  });
+}

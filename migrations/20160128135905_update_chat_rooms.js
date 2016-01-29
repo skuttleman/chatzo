@@ -10,7 +10,7 @@ exports.up = function(knex, Promise) {
 exports.down = function(knex, Promise) {
   return knex.schema.table('chat_rooms', function(table) {
     table.dropColumn('name');
-    table.dropColumn('id');
+    table.dropColumn('user_id');
     table.dropColumn('is_private');
   });
 };

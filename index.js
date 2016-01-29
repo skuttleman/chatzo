@@ -11,7 +11,7 @@ var cors = require('cors');
 var authService = require('./services/auth')
 require('./services/socket')(server);
 
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors({
   credentials: true,
   allowedHeaders: ['Authorization'],
@@ -24,11 +24,9 @@ app.use(authService);
 var auth = require('./routes/auth');
 var users = require('./routes/users');
 var chatrooms = require('./routes/chatrooms');
-var messages = require('./routes/messages');
 app.use('/auth', auth)
 app.use('/users', users);
 app.use('/chatrooms', chatrooms);
-app.use('/messages', messages);
 
 
 app.listen(port, function() {
