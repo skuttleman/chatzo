@@ -11,6 +11,8 @@ var cors = require('cors');
 var authService = require('./services/auth')
 require('./services/socket')(server);
 
+
+app.use(express.static(__dirname + '/front-end/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors({
   credentials: true,
@@ -21,12 +23,21 @@ app.use(cors({
 app.use(authService);
 
 
+app.get('/', function(request, response, next) {
+  response.type('.html');
+  if (request.user) {
+    response.sendFile(__dirname + '/front-end/index.html');
+  } else {
+    response.sendFile(__dirname + '/front-end/login.html');
+  }
+});
+
 var auth = require('./routes/auth');
 var users = require('./routes/users');
 var chatrooms = require('./routes/chatrooms');
 app.use('/auth', auth)
-app.use('/users', users);
-app.use('/chatrooms', chatrooms);
+app.use('/api/users', users);
+app.use('/api/chatrooms', chatrooms);
 
 
 app.listen(port, function() {

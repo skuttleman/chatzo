@@ -77,6 +77,10 @@ route.get('/', function(request, response, next) {
           return user.id == message.user_id;
         })[0];
       });
+      messages.sort(function(message1, message2) {
+        if (message1.created_at == message2.created_at) return 0;
+        return message1.created_at < message2.created_at ? -1 : 1;
+      });
       response.json({ messages: messages });
       db.close();
     });
