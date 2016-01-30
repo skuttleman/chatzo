@@ -10,7 +10,11 @@
   </head>
   <body ng-app="chatzo" ng-cloak>
     <chatzo-header></chatzo-header>
-    <main class="{{view}}" ng-view></main>
+    <main class="app">
+      <chatzo-list class="side-bar"></chatzo-list>
+      <section class="main {{view}}" ng-view></section>
+    </main>
+    <script type="text/javascript" src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-foundation/0.8.0/mm-foundation.min.js"></script>
     <script type="text/javascript" src="/js/app.js"></script>

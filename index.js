@@ -8,29 +8,33 @@ var bodyParser = require('body-parser');
 var port = process.env.PORT || 8000;
 var server = require('http').Server(app);
 var cors = require('cors');
-var authService = require('./services/auth')
-require('./services/socket')(server);
+var authService = require('./services/auth');
+var testing;
 
 
 app.use(express.static(__dirname + '/front-end/public'));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors({
-  credentials: true,
-  allowedHeaders: ['Authorization'],
-  exposedHeaders: ['Authorization'],
-  origin: process.env.HOST || 'http://localhost:' + port
-}));
+// app.use(cors({
+//   credentials: true,
+//   allowedHeaders: ['Authorization'],
+//   exposedHeaders: ['Authorization'],
+//   origin: process.env.HOST || 'http://localhost:' + port
+// }));
 app.use(authService);
 
 
 app.get('/', function(request, response, next) {
   response.type('.html');
-  if (request.user) {
-    response.sendFile(__dirname + '/front-end/index.html');
-  } else {
-    response.sendFile(__dirname + '/front-end/login.html');
-  }
+  var page = request.user ? 'index.html' : 'login.html';
+testing =
+  require('./services/socket')(server, request.user);
+  response.sendFile([__dirname, 'front-end', page].join('/'));
 });
+app.get('/get-users', function(request, response, next) {
+  response.json(testing.getUsers());
+});
+
+
 
 var auth = require('./routes/auth');
 var users = require('./routes/users');
@@ -40,7 +44,7 @@ app.use('/api/users', users);
 app.use('/api/chatrooms', chatrooms);
 
 
-app.listen(port, function() {
+server.listen(port, function() {
   console.log('Server is listening on port', port);
 });
 
