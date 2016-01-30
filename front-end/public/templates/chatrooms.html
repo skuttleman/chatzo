@@ -1,5 +1,11 @@
 <section>
+  <h2 class="hidden">Side Bar</h2>
+  <h3>Chat Rooms</h3>
   <ul>
     <li ng-repeat="room in chatrooms"><a ng-href="/#/chatrooms/{{room.id}}">{{room.name}}</a></li>
+  </ul>
+  <h3>User List</h3>
+  <ul>
+    <li ng-repeat="user in userList">{{user.name}}</li>
   </ul>
 </section>

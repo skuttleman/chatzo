@@ -18,10 +18,10 @@ module.exports = function(server, user) {
     io = require('socket.io')(server);
     io.on('connection', function(socket) {
       users[socket.id] = user;
-      io.emit('user list', { userList: users.getList() });
+      io.emit('user list', { users: users.getList() });
       socket.on('disconnect', function() {
         delete users[socket.id];
-        io.emit('user list', { userList: users.getList() });
+        io.emit('user list', { users: users.getList() });
       });
     });
   }
@@ -30,7 +30,9 @@ module.exports = function(server, user) {
     socketIO.getUsers = function() {
       return users.getList();
     };
-    socketIO.broadcast = io.emit;
+    socketIO.broadcast = function(channel, data) {
+      io.emit(channel, data);
+    };
   }
   return socketIO;
 };

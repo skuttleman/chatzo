@@ -13,9 +13,15 @@ app.directive('chatzoList', function() {
     scope: {
       // chatrooms: '='
     },
-    controller: ['chatService', '$scope', function(chatService, $scope) {
+    controller: ['chatService', 'socket', '$scope', function(chatService, socket, $scope) {
       chatService.getRooms().then(function(results) {
         $scope.chatrooms = results.data.chat_rooms;
+      });
+      chatService.getLoggedInUsers().then(function(data) {
+        $scope.userList = data.users;
+      });
+      socket.on('user list', function(data) {
+        $scope.userList = data.users;
       });
     }],
     replace: true

@@ -1,6 +1,7 @@
 var route = require('express').Router();
 var mongo = require('../db/mongo');
 var knex = require('../db/knex');
+var socket = require('../services/socket')();
 module.exports = route;
 
 // C
@@ -11,6 +12,8 @@ route.post('/', function(request, response, next) {
     request.body.created_at = Date();
     db.collection('messages').insert(request.body, function(err, data) {
       if (err) return next(err);
+      data.ops[0].user = request.user;
+      socket.broadcast('chat message', data.ops[0]);
       response.json({ success: !!data.result.ok });
       db.close();
     });
@@ -68,9 +71,9 @@ route.get('/', function(request, response, next) {
     knex('users'),
     mongo.connect()
   ]).then(function(results) {
-    var users = results[0], db = results[1],
-      find = { chat_room_id: request.chat_room_id };
-    db.collection('messages').find(find).toArray(function(err, messages) {
+    var users = results[0], db = results[1], find = { chat_room_id: request.chat_room_id };
+    db.collection('messages').find(find).sort({ created_at: -1 }).limit(100)
+    .toArray(function(err, messages) {
       if (err) return next(err);
       messages.forEach(function(message) {
         message.user = users.filter(function(user) {

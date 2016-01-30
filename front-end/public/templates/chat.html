@@ -1,3 +1,10 @@
-<ul>
-  <li ng-repeat="message in messages">{{message.message}}</li>
+<ul class="chat-messages">
+  <li ng-repeat="message in messages">
+    <span class="message-user">@{{message.user.name}}: </span>
+    <time class="message-date">{{message.created_at | chatdate}}</time>
+    <p class="message-body">{{message.message}}</p>
+  </li>
 </ul>
+<form ng-submit="sendMessage(newMessage)"  >
+  <input type="text" ng-model="newMessage" />
+</form>
