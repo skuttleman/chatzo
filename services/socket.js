@@ -1,29 +1,36 @@
-var socketIO;
-var users = {};
-var io;
+// var chat = require('./chat');
+var methods = require('./methods');
+var socketIO, io;
+var users = {
+  getList: function() {
+    var object = this;
+    return Object.keys(object).reduce(function(list, key) {
+      if (typeof object[key] == 'object') {
+        methods.pushUnique(list, object[key], 'id');
+      }
+      return list;
+    }, []);
+  }
+}
 
 module.exports = function(server, user) {
   if (!io && user) {
     io = require('socket.io')(server);
-
     io.on('connection', function(socket) {
       users[socket.id] = user;
-      io.emit('chat message', { message: user.name + ' has entered the room.' });
+      io.emit('user list', { userList: users.getList() });
       socket.on('disconnect', function() {
         delete users[socket.id];
-        io.emit('chat message', { message: user.name + ' has left the room' });
+        io.emit('user list', { userList: users.getList() });
       });
     });
   }
-
-
-
-  if (!socketIO) {
-    socketIO = {
-      getUsers: function() {
-        return users;
-      }
+  if (!socketIO) socketIO = {};
+  if (io && (!socketIO.getUsers || !socketIO.broadcast)) {
+    socketIO.getUsers = function() {
+      return users.getList();
     };
+    socketIO.broadcast = io.emit;
   }
   return socketIO;
 };

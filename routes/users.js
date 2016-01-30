@@ -1,9 +1,18 @@
 var route = require('express').Router();
 var knex = require('../db/knex');
+var socket = require('../services/socket')();
 module.exports = route;
 
 
 // R
+route.get('/logged-in', function(request, response, next) {
+  if (socket && socket.getUsers) {
+    response.json({ users: socket.getUsers() });
+  } else {
+    response.json({ users: [] });
+  }
+});
+
 route.get('/:id', function(request, response, next) {
   knex('users').where({ id: request.params.id }).then(function(users) {
     return knex('chat_rooms')

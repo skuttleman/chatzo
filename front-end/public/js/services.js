@@ -11,18 +11,6 @@ app.service('chatService', ['$http', function($http) {
     getRooms: function() {
       return $http.get('/api/chatrooms');
     },
-    socket: {
-      send: function(message) {
-        socket.emit('chat message', message);
-      },
-      receive: function(callback) {
-        socket.on('chat message', callback);
-      }
-    }
+    socketOn: socket.on
   };
 }]);
-
-// var socket = io();
-// socket.on('chat message', function(data) {
-//   console.log(data);
-// });
