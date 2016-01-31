@@ -66,9 +66,10 @@ route.delete('/:id', function(request, response, next) {
 // L
 route.get('/', function(request, response, next) {
   Promise.all([
-    knex('messages').where({ chat_room_id: request.chat_room_id }),
+    knex('messages').where({ chat_room_id: request.chat_room_id }).orderBy('created_at', 'desc').limit(100),
     knex('users')
   ]).then(function(results) {
+    results[0].reverse();
     results[0].forEach(function(message) {
       message.user = results[1].filter(function(user) {
         return user.id == message.user_id;

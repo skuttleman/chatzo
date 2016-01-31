@@ -17,8 +17,10 @@ app.controller('ChatController', [
       $scope.messages = results.data.messages;
     });
     socket.on('chat message', function(data) {
-      $scope.messages.push(data);
-      while ($scope.messages.length > 100) $scope.messages.shift();
+      if (data.chat_room == $scope.chatRoomId) {
+        $scope.messages.push(data);
+        while ($scope.messages.length > 100) $scope.messages.shift();
+      }
     });
   }
 ]);
