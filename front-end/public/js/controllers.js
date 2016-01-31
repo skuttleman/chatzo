@@ -7,7 +7,14 @@ app.controller('ChatController', [
     $scope.sendMessage = function() {
       chatService.sendMessage($scope.chatRoomId, $scope.newMessage);
       $scope.newMessage = '';
-    }
+    };
+    $scope.condense = function() {
+      var index = this.$index;
+      var previous = $scope.messages[index - 1];
+      return previous &&
+        this.message.user_id == previous.user_id &&
+        since(this.message, previous) <= 2;
+    };
     if (!$scope.user) {
       chatService.getUser().then(function(results) {
         $scope.user = results.data;
@@ -42,3 +49,8 @@ app.controller('ChatroomsController', [
     });
   }
 ]);
+
+function since(message1, message2) {
+  var date1 = new Date(message1.created_at), date2 = new Date(message2.created_at);
+  return Math.abs(date1.getTime() - date2.getTime()) / 60000;
+}

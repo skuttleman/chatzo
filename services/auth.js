@@ -49,7 +49,8 @@ function getOrCreateUser(profile) {
 
 function updateUser(user, profile) {
   return knex('users').returning('*').where({ id: user.id }).update({
-    name: profile.displayName || ''
+    name: profile.displayName || '',
+    image: photo(profile.photos)
   }).then(function(users) {
     return Promise.resolve(users[0]);
   });
@@ -58,8 +59,21 @@ function updateUser(user, profile) {
 function createUser(profile) {
   return knex('users').returning('*').insert({
     social_id: profile.id,
-    name: profile.displayName
+    name: profile.displayName,
+    image: photo(profile.photos)
   }).then(function(users) {
     return Promise.resolve(users[0]);
   });
+}
+
+function photo(photos) {
+  var photo = photos[photos.length - 1];
+  var value = popSz(photo ? photo.value : '');
+  return value;
+}
+
+function popSz(string) {
+  var array = string.split('?');
+  if (array.length > 1) array.pop();
+  return array.join('?');
 }

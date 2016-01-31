@@ -4,7 +4,7 @@ var socket = require('../services/socket')();
 module.exports = route;
 
 
-// R
+// logged-in users
 route.get('/logged-in', function(request, response, next) {
   if (socket && socket.getUsers) {
     response.json({ users: socket.getUsers() });
@@ -13,6 +13,7 @@ route.get('/logged-in', function(request, response, next) {
   }
 });
 
+// R
 route.get('/:id', function(request, response, next) {
   knex('users').where({ id: request.params.id }).then(function(users) {
     return knex('chat_rooms')
