@@ -27,20 +27,11 @@ route.post('/', function(request, response, next) {
 
 // R
 route.get('/:id', function(request, response, next) {
-  if (request.user && request.user.id) {
-    knex('chat_rooms').where({ id: request.params.id, user_id: request.user.id })
-    .then(function(chat_rooms) {
-      if (chat_rooms.length) {
-        return knex('users')
-        .innerJoin('access', 'users.id', 'access.user_id')
-        .where(function() {
-          this.where('access.chat_room_id', request.params.id).orWhere('chat_rooms.is_private', false);
-        }).then(function(chat_rooms) {
-          response.json({ users: users, chat_rooms: chat_rooms });
-        });
-      } else {
-        next('You do not have access to this chat room');
-      }
+  if (request.user) {
+    knex('chat_rooms').where(function() {
+      this.where({ user_id: request.user_id }).orWhere({ is_private: false });
+    }).where({ id: request.params.id }).then(function(chat_rooms) {
+        response.json({ chat_rooms: chat_rooms });
     }).catch(next);
   } else {
     next('You must be logged in to process this request');
@@ -79,7 +70,9 @@ route.delete('/:id', function(request, response, next) {
 // L
 route.get('/', function(request, response, next) {
   if (request.user && request.user.id) {
-    knex('chat_rooms').where({ user_id: request.user.id }).then(function(chat_rooms) {
+    knex('chat_rooms').where(function() {
+      this.where({ user_id: request.user.id }).orWhere({ is_private: false });
+    }).then(function(chat_rooms) {
       response.json({ chat_rooms: chat_rooms });
     }).catch(next);
   } else {
@@ -92,7 +85,7 @@ function canAccess(user, id) {
     knex('chat_rooms').where({ id: id }),
     knex('access').select('user_id').where({ chat_room_id: id })
   ]).then(function(results) {
-    if ((user && user.id == results[0][0].user_id) || results[1].indexOf(Number(id)) + 1) {
+    if ((user && user.id == results[0][0].user_id) || results[1].indexOf(Number(id)) + 1 || !results[0][0].is_private) {
       return Promise.resolve();
     } else {
       return Promise.reject();
