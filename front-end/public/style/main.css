@@ -22,11 +22,13 @@ main.app {
   display:flex;
   flex-direction: row;
   height: calc(100vh - 60px);
+  width: 100vw;
 }
 main.app .side-bar {
   padding: 10px;
   background-color: #ddddff;
   height: 100%;
+  flex-shrink: 0;
 }
 main.app .chat {
   background-color: #fefefe;
@@ -42,6 +44,30 @@ main.app .chat ul {
 main.app .chat ul p {
   margin: 0;
 }
-main.app .chat ul li *:not(.message-body) {
+main.app .chat div > *:not(.message-body) {
   color: #999;
+}
+main.app .chat-messages {
+  margin: 0;
+}
+main.app .chat-messages > :last-child {
+  margin-bottom: 20px;
+}
+main.app .chat-messages li {
+  display: flex;
+  flex-direction: row;
+}
+main.app .chat-messages .image-container {
+  width: 40px;
+  height: 0;
+  margin-right: 10px;
+  flex-shrink: 0;
+  display: flex;
+}
+.image-container .img {
+  flex-grow: 1;
+  width: 40px;
+  height: 60px;
+  background-size: contain;
+  background-repeat: no-repeat;
 }

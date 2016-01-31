@@ -9,8 +9,8 @@ app.filter('chatdate', function() {
       ].join('/'),
       [
         date.getHours() % 12 || 12,
-        pad(date.getMinutes()),
-        pad(date.getSeconds()),
+        pad(date.getMinutes())
+        // pad(date.getSeconds())
       ].join(':')
     ].join(' ') + (date.getHours() >= 12 ? 'PM' : 'AM');
   };

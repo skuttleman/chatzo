@@ -1,8 +1,14 @@
 <ul class="chat-messages">
   <li ng-repeat="message in messages">
-    <span ng-hide="condense()" class="message-user">@{{message.user.name}}: </span>
-    <time ng-hide="condense()" class="message-date">{{message.created_at | chatdate}}</time>
-    <p class="message-body">{{message.message}}</p>
+    <div class="image-container">
+      <div class="img" ng-hide="condense()" style="background-image: url({{message.user.image}});"></div>
+      <!-- <img ng-hide="condense()" ng-src="{{message.user.image}}" alt="user" /> -->
+    </div>
+    <div>
+      <span ng-hide="condense()" class="message-user">@{{message.user.name}}: </span>
+      <time ng-hide="condense()" class="message-date">{{message.created_at | chatdate}}</time>
+      <p class="message-body">{{message.message}}</p>
+    </div>
   </li>
 </ul>
 <form ng-submit="sendMessage()"  >
