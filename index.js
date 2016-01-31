@@ -12,8 +12,8 @@ var authService = require('./services/auth');
 
 
 app.use(express.static(__dirname + '/front-end/public'));
-// app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
 app.use(authService);
 
 

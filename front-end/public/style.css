@@ -1,0 +1,50 @@
+.hidden {
+  display: none;
+}
+main.login a {
+  padding: 5px 5px;
+  width: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 1.1em;
+}
+
+main.login a img {
+  height: 40px;
+}
+
+
+.header {
+  height: 60px;
+}
+main.app {
+  display:flex;
+  flex-direction: row;
+  height: calc(100vh - 60px);
+}
+main.app .side-bar {
+  padding: 10px;
+  background-color: #ddddff;
+  height: 100%;
+}
+main.app .side-bar .chat-rooms-list li {
+  cursor: pointer;
+}
+main.app .chat {
+  background-color: #fefefe;
+  flex-grow: 1;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+main.app .chat ul {
+  overflow: scroll;
+}
+main.app .chat ul p {
+  margin: 0;
+}
+main.app .chat ul li *:not(.message-body) {
+  color: #999;
+}

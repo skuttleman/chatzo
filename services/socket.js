@@ -14,13 +14,16 @@ var users = {
 }
 
 module.exports = function(server, user) {
-  if (!io && user) {
+  if (!io && server) {
     io = require('socket.io')(server);
+  }
+  if (io && user) {
     io.on('connection', function(socket) {
-      users[socket.id] = user;
       io.emit('user list', { users: users.getList() });
+      users[socket.id] = user;
+      // users[socket.id].socket = socket;
       socket.on('disconnect', function() {
-        delete users[socket.id];
+        if (users[socket.id]) delete users[socket.id];
         io.emit('user list', { users: users.getList() });
       });
     });

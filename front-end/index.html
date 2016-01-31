@@ -3,24 +3,45 @@
   <head>
     <meta charset="UTF-8">
     <title>Chatzo</title>
-    <!-- Angular -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.4/angular.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.5.3/css/foundation.min.css">
-    <link rel="stylesheet" href="/style/main.css" />
-  </head>
-  <body ng-app="chatzo" ng-cloak>
-    <chatzo-header></chatzo-header>
-    <main class="app">
-      <chatzo-list class="side-bar"></chatzo-list>
-      <section class="main {{view}}" ng-view></section>
-    </main>
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+    <!-- socket.io -->
     <script type="text/javascript" src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-foundation/0.8.0/mm-foundation.min.js"></script>
-    <script type="text/javascript" src="/js/app.js"></script>
-    <script type="text/javascript" src="/js/services.js"></script>
-    <script type="text/javascript" src="/js/controllers.js"></script>
-    <script type="text/javascript" src="/js/directives.js"></script>
-    <script type="text/javascript" src="/js/filters.js"></script>
+
+    <!-- Foundation -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.1.2/foundation-flex.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.1.2/foundation.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.1.2/foundation.min.js"></script>
+
+    <!-- Mine -->
+    <script type="text/javascript" src="/app.js"></script>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <header class="header">
+      <h1>Chatzo</h1>
+    </header>
+    <main class="app">
+      <section class="side-bar">
+        <h2 class="hidden">Side Bar</h2>
+        <h3>Chat Rooms</h3>
+        <ul class="chat-rooms-list">
+          <li class="hidden">Chat Rooms List</li>
+        </ul>
+        <h3>Users</h3>
+        <ul class="users-list">
+          <li class="hidden">Users List</li>
+        </ul>
+      </section>
+      <section class="chat">
+        <ul class="chat-messages">
+          <li class="hidden">Messages</li>
+        </ul>
+        <form class="message-form">
+          <input class="message-text" type="text" />
+        </form>
+      </section>
+    </main>
   </body>
 </html>
