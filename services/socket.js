@@ -19,9 +19,9 @@ module.exports = function(server, user) {
   }
   if (io && user) {
     io.on('connection', function(socket) {
-      io.emit('user list', { users: users.getList() });
       users[socket.id] = user;
       // users[socket.id].socket = socket;
+      io.emit('user list', { users: users.getList() });
       socket.on('disconnect', function() {
         if (users[socket.id]) delete users[socket.id];
         io.emit('user list', { users: users.getList() });

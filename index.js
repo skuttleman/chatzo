@@ -20,7 +20,9 @@ app.use(authService);
 app.get('/', function(request, response, next) {
   response.type('.html');
   var page = request.user ? 'index.html' : 'login.html';
-  require('./services/socket')(server, request.user);
+  if (request.user) {
+    require('./services/socket')(server, request.user);
+  }
   response.sendFile([__dirname, 'front-end', page].join('/'));
 });
 

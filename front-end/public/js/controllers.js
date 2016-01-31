@@ -17,7 +17,7 @@ app.controller('ChatController', [
       $scope.messages = results.data.messages;
     });
     socket.on('chat message', function(data) {
-      if (data.chat_room == $scope.chatRoomId) {
+      if (data.chat_room_id == $scope.chatRoomId) {
         $scope.messages.push(data);
         while ($scope.messages.length > 100) $scope.messages.shift();
       }

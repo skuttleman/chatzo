@@ -1,7 +1,7 @@
 <ul class="chat-messages">
   <li ng-repeat="message in messages">
-    <span class="message-user">@{{message.user.name}}: </span>
-    <time class="message-date">{{message.created_at | chatdate}}</time>
+    <span ng-hide="condense(messages, $index)" class="message-user">@{{message.user.name}}: </span>
+    <time ng-hide="condense(messages, $index)" class="message-date">{{message.created_at | chatdate}}</time>
     <p class="message-body">{{message.message}}</p>
   </li>
 </ul>
