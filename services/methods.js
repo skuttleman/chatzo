@@ -13,5 +13,20 @@ module.exports = {
       }
     }
     return -1;
+  // },
+  // datetime: function(value) {
+  //   var date = new Date(value);
+  //   return [
+  //     [
+  //       date.getMonth() + 1,
+  //       date.getDate(),
+  //       date.getYear() - 100
+  //     ].join('/'),
+  //     [
+  //       date.getHours() % 12 || 12,
+  //       pad(date.getMinutes()),
+  //       pad(date.getSeconds()),
+  //     ].join(':')
+  //   ].join(' ') + (date.getHours() >= 12 ? 'PM' : 'AM');
   }
 };
