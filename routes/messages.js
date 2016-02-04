@@ -1,6 +1,7 @@
 var route = require('express').Router();
 var knex = require('../db/knex');
 var socket = require('../services/socket')();
+var shibBot = require('../services/shib-bot');
 module.exports = route;
 
 // C
@@ -14,6 +15,7 @@ route.post('/', function(request, response, next) {
   knex('messages').returning('*').insert(message).then(function(messages) {
     messages[0].user = request.user;
     socket.broadcast('chat message', messages[0]);
+    shibBot(message);
     response.json({ success: true });
   }).catch(next);
 });

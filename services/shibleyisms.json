@@ -1,0 +1,54 @@
+{
+  "triggered": [
+    {
+      "triggers": ["late"],
+      "responses": [
+        "Sorry I'm late, guys!"
+      ]
+    },
+    {
+      "triggers": ["starbucks", "food"],
+      "responses": [
+        "Dude! Fresh Starbucks food!!!",
+        "Have you ever noticed I'm always eating?"
+      ]
+    },
+    {
+      "triggers": ["ai", "superintelligence"],
+      "responses": [
+        "Have you guys ever thought about the implications of strong AI coming to fruition in our lifetime? Such superintelligence would not be just another technological development; it would be the most important invention ever made, and would lead to explosive progress in all scientific and technological fields, as the superintelligence would conduct research with superhuman efficiency! To the extent that ethics is a cognitive pursuit, a superintelligence could also easily surpass humans in the quality of its moral thinking!!! Fuck!"
+      ]
+    },
+    {
+      "triggers": ["wizard", "wizards"],
+      "responses": [
+        "We're all wizards. No, seriously."
+      ]
+    },
+    {
+      "triggers": ["problem", "problems"],
+      "responses": [
+        "Can I ask you a question? Why exactly are you doing that?"
+      ]
+    },
+    {
+      "triggers": ["banana", "bananas"],
+      "responses": [
+        "There's always money in the banana stand"
+      ]
+    },
+    {
+      "triggers": ["shibbot"],
+      "responses": [
+        "Thanks, dude."
+      ]
+    }
+  ],
+  "random": [
+    "Right on.",
+    "Check out these comics.",
+    "Who's up for some ping pong?",
+    "It wasn't my fault",
+    "Man! The traffic on the 25 and the 70 is terrible!"
+  ]
+}
